@@ -14,6 +14,24 @@ export const createPost = async (payload) => {
 export const getAllPost = async () => {
     const getPost = await prisma.post.findMany();
     return getPost;
+};
+
+export const updateOne = async (id, payload) => {
+    const updatedPost = await prisma.post.update({
+        where:{id:id},
+        data:{
+            title:payload.title
+        }
+    })
+    return updatedPost;
+};
+
+export const deleteOne = async (id) => {
+    await prisma.post.delete({
+        where:{id:id}
+    });
+    const newPost = await prisma.post.findMany();
+    return newPost;
 }
 
 
