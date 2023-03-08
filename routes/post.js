@@ -6,11 +6,11 @@ const postRouter = express.Router();
 postRouter.post('/posts', async(req,res)=>{
     const payload = req.body;
     const newPost = await createPost(payload);
-    return res.json(newPost)
+    return res.json({newPost})
 });
 postRouter.get('/posts', async(req,res)=>{
     const getPost = await getAllPost()
-    return res.json(getPost)
+    return res.json({getPost})
 });
 
 

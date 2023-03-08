@@ -19,6 +19,7 @@ model User {
   password String?
 
   profile Profile?
+  posts   Post[]
 }
 
 //post model
@@ -26,6 +27,9 @@ model User {
 model Post {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   title String
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String @db.ObjectId
 }
 
 //profile one to one relationship

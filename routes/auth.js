@@ -21,37 +21,38 @@ authRouter.post('/signup', async (req, res) => {
     const accessToken = Jwt.sign({ id: newUser.id }, process.env.SECRET_TOKEN, {
         expiresIn: 60 * 24
     });
-    return res.header("Authorization", accessToken).send({accessToken,newUser });
+    return res.header("Authorization", accessToken).send({ accessToken, newUser });
 });
 
 authRouter.post('/signin', async (req, res) => {
     const user = await prisma.User.findUnique({
-        where:{
+        where: {
             email: req.body.email
         }
     })
-    if(!user){
-        return res.send({"message":'user email not matched'})
+    if (!user) {
+        return res.send({ "message": 'user email not matched' })
     }
     const passwordCompress = bcrypt.compareSync(req.body.password, user.password)
     const accessToken = Jwt.sign({ id: user.id }, process.env.SECRET_TOKEN, {
         expiresIn: 60 * 24
     });
 
-    if(!passwordCompress){
-        return res.send({"message":"password don't matched"})
-    }else{
-        return res.header("Authorization", accessToken).send({user, accessToken})
+    if (!passwordCompress) {
+        return res.send({ "message": "password don't matched" })
+    } else {
+        return res.header("Authorization", accessToken).send({ user, accessToken })
     }
 });
 
 authRouter.get('/users', async (req, res) => {
     const users = await prisma.user.findMany({
-        include:{
-            profile: true
+        include: {
+            profile: true,
+            posts: true
         }
     });
-    return res.send({users});
+    return res.send({ users });
 
 })
 
