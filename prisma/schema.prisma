@@ -17,11 +17,25 @@ model User {
   name     String?
   email    String? @unique
   password String?
+
+  profile Profile?
 }
 
 //post model
 
 model Post {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+}
+
+//profile one to one relationship
+
+model Profile {
+  p_id   String  @id @default(auto()) @map("_id") @db.ObjectId
+  name   String?
+  gender String?
+  age    String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique @db.ObjectId
 }

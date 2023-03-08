@@ -43,6 +43,16 @@ authRouter.post('/signin', async (req, res) => {
     }else{
         return res.header("Authorization", accessToken).send({user, accessToken})
     }
+});
+
+authRouter.get('/users', async (req, res) => {
+    const users = await prisma.user.findMany({
+        include:{
+            profile: true
+        }
+    });
+    return res.send({users});
+
 })
 
 export default authRouter;
