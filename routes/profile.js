@@ -7,11 +7,11 @@ profileRouter.post('/profile', async(req,res)=>{
     const payload = req.body;
     console.log(payload);
     const newProfile = await createProfile(payload);
-    return res.send({newProfile})
+    return res.send({"profile":newProfile})
 });
 profileRouter.get('/profile', async(req,res)=>{
-    const posts = await getProfile()
-    return res.json({posts})
+    const profiles = await getProfile()
+    return res.json({profiles})
 });
 
 export default profileRouter;
