@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import postRouter from './routes/post.js';
 import authRouter from './routes/auth.js';
+import  createError from 'http-errors';
 import profileRouter from './routes/profile.js';
 const port = process.env.port || 5000
 
@@ -18,6 +19,18 @@ app.use(postRouter, authRouter, profileRouter);
 app.get('/', (req,res)=>{
     res.send('Hello world')
 })
+
+app.use((req, res, next) => {
+    next(createError.NotFound());
+  });
+  
+  app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.send({
+      status: err.status || 500,
+      message: err.message,
+    });
+  });
 
 
 app.listen(port,()=>{
